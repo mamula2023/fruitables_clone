@@ -24,5 +24,12 @@ class Category(models.Model):
         return self.title
 
 
-class Order(models.Model):
-    pass
+class Cart(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='cart_items')
+    quantity = models.IntegerField(default=1)
