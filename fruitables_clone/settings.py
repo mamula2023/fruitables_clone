@@ -35,7 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'store'
+    'versatileimagefield',
+    'store',
+
 ]
 
 MIDDLEWARE = [
@@ -107,6 +109,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
@@ -120,3 +125,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+VERSATILEIMAGEFIELD_SETTINGS = {
+    'cache_length': 2592000,  # Cache length in seconds (e.g., 30 days)
+    'cache_name': 'versatileimagefield_cache',
+    'jpeg_resize_quality': 70,  # Default JPEG quality for resized images
+    'sized_directory_name': '__sized__',  # Directory where resized images are stored
+    'create_images_on_demand': True,
+    'image_key_post_processor': None,
+    'progressive_jpeg': True,
+}
