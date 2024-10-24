@@ -24,10 +24,6 @@ def add_to_cart(request):
     cart_item = CartItem.objects.create(cart=cart, product=prod, quantity=prod.min_weight)
     cart_item.save()
 
-
-
-
-
 def category(request, slug=None):
     if request.method == 'POST':
         add_to_cart(request)
@@ -94,6 +90,12 @@ def category(request, slug=None):
 
     context['paginator'] = page_obj
     context['tags'] = tags
+
+    cart, created = Cart.objects.prefetch_related('items').get_or_create(id=1)
+    if not created:
+        context['items_in_cart'] = len(list(cart.items.all()))
+    else:
+        context['items_in_cart'] = 0
 
     return render(request, 'category.html', context)
 

@@ -2,6 +2,11 @@
 {% block title %}
     {{ category.title }}
 {% endblock %}
+
+{% block products_in_cart %}
+    {{ items_in_cart }}
+{% endblock %}
+
 {% block content %}
 
         {% include 'single_page_header.html' with title=category.title %}
