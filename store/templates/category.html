@@ -89,6 +89,7 @@
                                     {% for prod in paginator %}
 
                                         <div class="col-md-6 col-lg-6 col-x4">
+                                         <a href="/product/{{ prod.slug }}">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
                                                     <img src="{{ prod.image.crop.400x400 }}" class="img-fluid w-50 rounded-top" alt="">
@@ -109,6 +110,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                         </a>
                                         </div>
 
                                     {% endfor %}

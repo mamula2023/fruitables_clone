@@ -1,12 +1,13 @@
 from django.urls import path
 from store import views
+from store.views import IndexView, CategoryView, ProductView, CartView, CheckoutView, ContactView
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('category/<slug:slug>/', views.category, name='category'),
-    path('category/', views.category, name='category'),
-    path('product/<slug:slug>/', views.product, name='product'),
-    path('order/cart/', views.cart, name='cart'),
-    path('order/checkout', views.checkout, name='checkout'),
-    path('contact/', views.contact, name='contact'),
+    path('', IndexView.as_view(), name='index'),
+    path('category/<slug:slug>/', CategoryView.as_view(), name='category'),
+    path('category/', CategoryView.as_view(), name='category'),
+    path('product/<slug:slug>/', ProductView.as_view(), name='product'),
+    path('order/cart/', CartView.as_view(), name='cart'),
+    path('order/checkout', CheckoutView.as_view(), name='checkout'),
+    path('contact/', ContactView.as_view(), name='contact'),
 ]
