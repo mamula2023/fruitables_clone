@@ -1,16 +1,15 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import DetailView
+from django.views.generic import DetailView, TemplateView
 
 import order
 from store.models import Product, Category, Tag
 from order.models import Cart, CartItem
 
 
-class IndexView(View):
-    def get(self, request):
-        return render(request, 'index.html')
+class IndexView(TemplateView):
+    template_name = 'index.html'
 
 
 class CategoryView(View):
@@ -92,6 +91,5 @@ class ProductView(DetailView):
         return context
 
 
-class ContactView(View):
-    def get(self, request):
-        return render(request, 'contact.html')
+class ContactView(TemplateView):
+    template_name = 'contact.html'
