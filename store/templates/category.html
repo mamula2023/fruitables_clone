@@ -102,7 +102,7 @@
                                                     <p>{{ prod.description }}</p>
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold mb-0">${{ prod.price }} / kg</p>
-                                                        <form action="." method="post">
+                                                        <form action="/order/add_to_cart" method="post">
                                                             {% csrf_token %}
                                                             <input type="hidden" name="add" value="{{ prod.title }}">
                                                             <input type="submit" value="Add to cart" class="btn border border-secondary rounded-pill px-3 text-primary">
