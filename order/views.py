@@ -1,11 +1,10 @@
 from django.db.models import F, Sum
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-
+from django.views.generic import FormView
 
 from order.models import CartItem, Cart
 from store.models import Product
-import store.views
 
 # Create your views here.
 class CartView(View):
@@ -51,7 +50,7 @@ class CheckoutView(View):
         return render(request, 'checkout.html')
 
 
-class AddToCartView(View):
+class AddToCartView(FormView):
     def post(self, request, slug=None):
         product_title = request.POST.get('add')
         prod = Product.objects.filter(title=product_title).first()

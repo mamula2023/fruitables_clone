@@ -4,6 +4,7 @@ from django.views import View
 from django.views.generic import DetailView, TemplateView
 
 import order
+from store.forms import FilterForm
 from store.models import Product, Category, Tag
 from order.models import Cart, CartItem
 
@@ -67,15 +68,19 @@ class CategoryView(View):
                     cats_queue.append(child.title)
 
         tags = Tag.objects.all()
+        tag_choices = [(tag.title, tag.title) for tag in tags]
         paginator = Paginator(products, 3)
         page_number = request.GET.get('page', 1)
         page_obj = paginator.get_page(page_number)
 
         context['paginator'] = page_obj
-        context['tags'] = tags
 
         cart, created = Cart.objects.prefetch_related('items').get_or_create(id=1)
         context['items_in_cart'] = len(list(cart.items.all())) if not created else 0
+
+        filter_form = FilterForm()
+        filter_form.fields['tag'].choices = tag_choices
+        context['filter_form'] = filter_form
 
         return render(request, 'category.html', context)
 
