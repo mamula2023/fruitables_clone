@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container-fluid fruite py-5">
+        <div class="container-fluid py-5">
+            <h1>Register</h1>
+            <div class="row g-4">
+                <div class="col-lg-12">
+                    <div class="row g-4">
+                        <div class="col-xl-3">
+                            <form method="post">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+
+                                    <input type="submit" value="Login" class="btn btn-primary border-0 border-secondary py-3 px-4 rounded-pill text-white">
+                                    <a href="/register">Create Account</a>
+
+                            </form>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock content %}

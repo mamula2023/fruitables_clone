@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F, Sum
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
@@ -6,8 +7,10 @@ from django.views.generic import FormView
 from order.models import CartItem, Cart
 from store.models import Product
 
+
 # Create your views here.
-class CartView(View):
+class CartView(LoginRequiredMixin, View):
+    login_url = '/login/'
     template_name = 'cart.html'
 
     def get(self, request):
@@ -45,12 +48,14 @@ class CartView(View):
         return self.get(request)
 
 
-class CheckoutView(View):
+class CheckoutView(LoginRequiredMixin, View):
+    login_url = '/login/'
     def get(self, request):
         return render(request, 'checkout.html')
 
 
-class AddToCartView(FormView):
+class AddToCartView(LoginRequiredMixin, FormView):
+    login_url = '/login/'
     def post(self, request, slug=None):
         product_title = request.POST.get('add')
         prod = Product.objects.filter(title=product_title).first()
@@ -66,4 +71,3 @@ class AddToCartView(FormView):
         cart_item.save()
 
         return redirect('cart')
-

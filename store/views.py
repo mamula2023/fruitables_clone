@@ -1,12 +1,19 @@
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.contrib.auth.views import LogoutView
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import DetailView, TemplateView
+from django.views.generic import DetailView, TemplateView, FormView
 
-import order
-from store.forms import FilterForm
+from store.forms import FilterForm, RegisterForm, LoginForm
 from store.models import Product, Category, Tag
-from order.models import Cart, CartItem
+from order.models import Cart
+
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class IndexView(TemplateView):
@@ -98,3 +105,40 @@ class ProductView(DetailView):
 
 class ContactView(TemplateView):
     template_name = 'contact.html'
+
+
+class RegisterView(FormView):
+    template_name = 'register.html'
+    form_class = RegisterForm
+    success_url = reverse_lazy('login')
+
+    def form_valid(self, form):
+        form.save()  # Creates the new user and saves it to the database
+        messages.success(self.request, 'Registration successful.')
+        return super().form_valid(form)
+
+
+class LoginView(FormView):
+    template_name = 'login.html'  # Template for the login page
+    form_class = LoginForm
+    success_url = reverse_lazy('index')
+
+    def form_valid(self, form):
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(self.request, username=username, password=password)
+        if user is not None:
+            login(self.request, user)
+            messages.success(self.request, 'Logged in successfully.')
+            # Check for 'next' parameter to redirect
+            next_url = self.request.GET.get('next')
+            if next_url:
+                return redirect(next_url)  # Redirect to the next URL if provided
+            return super().form_valid(form)  # Fallback to default success URL
+        else:
+            messages.error(self.request, 'Invalid username or password.')
+            return self.form_invalid(form)
+
+
+class Logout(LogoutView):
+    next_page = reverse_lazy('index')  # Redirect after logout
