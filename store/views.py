@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
+from django.views.decorators.cache import cache_page
 from django.views.generic import DetailView, TemplateView, FormView
 
 from store.forms import FilterForm, RegisterForm, LoginForm
@@ -20,6 +21,7 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 
 
+@cache_page(60 * 3)
 class CategoryView(View):
     def get(self, request, slug=None):
         tag = request.GET.get('tag')
