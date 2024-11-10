@@ -21,7 +21,6 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 
 
-@cache_page(60 * 3)
 class CategoryView(View):
     def get(self, request, slug=None):
         tag = request.GET.get('tag')
