@@ -32,3 +32,5 @@ If there is no such product in cart, it adds product.min_weight in quantity and 
 
 Not implemented: Search functionality.
 
+
+test append
